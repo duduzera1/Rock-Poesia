@@ -1,183 +1,238 @@
-// Configurações do Supabase
-const SUPABASE_URL = 'https://hxbiexpadfaleozfywkh.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4YmlleHBhZGZhbGVvemZ5d2toIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk3MjYxOTYsImV4cCI6MjA4NTMwMjE5Nn0.Tk5ENRCxrjiAnOBmFIUBEvEPK8indX7vurVDkd8UKyQ';
+// --- 1. CONFIGURAÇÃO DA CONEXÃO COM O BANCO DE DADOS SUPABASE ---
+// Credenciais necessárias para a comunicação com o banco de dados na nuvem
+const SUPABASE_URL = "https://hxbiexpadfaleozfywkh.supabase.co";
+const SUPABASE_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4YmlleHBhZGZhbGVvemZ5d2toIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk3MjYxOTYsImV4cCI6MjA4NTMwMjE5Nn0.Tk5ENRCxrjiAnOBmFIUBEvEPK8indX7vurVDkd8UKyQ";
+
+// Inicialização do cliente Supabase para permitir operações de inserção e consulta
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// --- VARIÁVEIS DE CONTROLE ---
-let listaMembros = [];
-let editandoIndex = null;
+// --- 2. GERENCIAMENTO DA TELA DE ABERTURA (SPLASH SCREEN) ---
+// O evento DOMContentLoaded garante que o código execute após o carregamento do HTML
+document.addEventListener("DOMContentLoaded", function () {
+  const elementoDaSplash = document.getElementById("splash");
+  const elementoTextoBemVindo = document.getElementById("welcome-text");
+  const elementoConteudoPrincipal = document.getElementById("main-content");
 
-// --- ELEMENTOS DA INTERFACE ---
-const form = document.getElementById('formInscricao');
-const inputNomeMembro = document.getElementById('nome_membro');
-const selectFuncaoMembro = document.getElementById('funcao_membro');
-const btnAddMembro = document.getElementById('btnAddMembro');
-const listaVisual = document.getElementById('listaVisual');
+  // Adiciona classe para bloquear o scroll durante a abertura
+  document.body.classList.add("no-scroll");
 
-const selectEstilo = document.getElementById('estilo_musical');
-const wrapperOutro = document.getElementById('wrapper_outro');
-const inputOutro = document.getElementById('outro_estilo');
+  // Etapa 1: Após 2 segundos, exibe a mensagem de boas-vindas
+  setTimeout(function () {
+    elementoTextoBemVindo.classList.remove("hidden");
+    setTimeout(function () {
+      elementoTextoBemVindo.classList.add("show");
+    }, 100);
+  }, 2000);
 
-const statusMsg = document.getElementById('status');
-const btnEnviar = document.getElementById('btnEnviar');
+  // Etapa 2: Após 5.5 segundos, remove a splash e revela o formulário
+  setTimeout(function () {
+    elementoDaSplash.style.opacity = "0"; // Efeito de desvanecimento suave
 
-// --- 1. LÓGICA DO ESTILO MUSICAL (EDITAR/EXCLUIR) ---
-
-// Mostrar/Esconder campo customizado
-selectEstilo.addEventListener('change', function() {
-    if (this.value === 'Outros') {
-        wrapperOutro.style.display = 'block';
-        inputOutro.required = true;
-        inputOutro.focus();
-    } else {
-        wrapperOutro.style.display = 'none';
-        inputOutro.required = false;
-        inputOutro.value = ""; 
-    }
+    setTimeout(function () {
+      elementoDaSplash.style.display = "none"; // Remove o elemento do fluxo da página
+      elementoConteudoPrincipal.style.display = "block"; // Mostra o conteúdo do formulário
+      document.body.classList.remove("no-scroll"); // Libera o scroll para o usuário
+    }, 1000); // Tempo de conclusão da transição de opacidade
+  }, 5500);
 });
 
-// Botão de Excluir Seleção (🗑️ ao lado do Select)
-document.getElementById('btnResetEstilo').addEventListener('click', () => {
-    selectEstilo.value = "";
-    wrapperOutro.style.display = 'none';
-    inputOutro.value = "";
-    inputOutro.required = false;
-});
+// --- 3. CONTROLE DOS INTEGRANTES DA BANDA ---
+// Armazenamento temporário dos músicos antes do envio final
+let listaDeIntegrantesDaBanda = [];
 
-// Botão de Apagar Texto (🗑️ ao lado do campo Outros)
-document.getElementById('btnDelOutro').addEventListener('click', () => {
-    inputOutro.value = "";
-    inputOutro.focus();
-});
+const formularioDeInscricao = document.getElementById("formInscricao");
+const inputNomeDoMusico = document.getElementById("nome_membro");
+const selectFuncaoDoMusico = document.getElementById("funcao_membro");
+const botaoAdicionarIntegrante = document.getElementById("btnAddMembro");
+const listaVisualDeIntegrantes = document.getElementById("listaVisual");
 
-// Botão de Editar Texto (✏️ ao lado do campo Outros)
-document.getElementById('btnEditOutro').addEventListener('click', () => {
-    inputOutro.focus();
-});
+// Escutador de clique para adicionar músicos à lista
+botaoAdicionarIntegrante.addEventListener("click", function () {
+  const nomeInformado = inputNomeDoMusico.value.trim();
+  const funcaoSelecionada = selectFuncaoDoMusico.value;
 
-
-// --- 2. LÓGICA DOS INTEGRANTES (ADD / EDIT / DEL) ---
-
-function renderizarLista() {
-    listaVisual.innerHTML = "";
-    listaMembros.forEach((membro, index) => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-            <div>
-                <strong>${membro.nome_musico}</strong>
-                <small>(${membro.funcao})</small>
-            </div>
-            <div class="acoes-lista">
-                <button type="button" class="btn-acao" onclick="prepararEdicao(${index})">✏️</button>
-                <button type="button" class="btn-acao" onclick="removerMembro(${index})">🗑️</button>
-            </div>
-        `;
-        listaVisual.appendChild(li);
+  // Validação de segurança para campo vazio utilizando SweetAlert2
+  if (nomeInformado === "") {
+    Swal.fire({
+      icon: "warning",
+      title: "Campo Vazio",
+      text: "Por favor, digite o nome do músico.",
+      background: "#1e1e1e",
+      color: "#ffffff",
     });
+    return;
+  }
+
+  // Adiciona o novo integrante ao array de controle
+  listaDeIntegrantesDaBanda.push({
+    nome_musico: nomeInformado,
+    funcao: funcaoSelecionada,
+  });
+
+  // Limpa os campos e atualiza a interface
+  inputNomeDoMusico.value = "";
+  inputNomeDoMusico.focus();
+  renderizarListaDeIntegrantesNaTela();
+});
+
+// Função para desenhar os músicos adicionados no formulário
+function renderizarListaDeIntegrantesNaTela() {
+  listaVisualDeIntegrantes.innerHTML = ""; // Limpa a lista para reconstrução
+
+  listaDeIntegrantesDaBanda.forEach(function (integrante, indice) {
+    const itemDeLista = document.createElement("li");
+    itemDeLista.innerHTML = `
+            <span><strong>${integrante.nome_musico}</strong> (${integrante.funcao})</span>
+            <button type="button" onclick="removerIntegranteDaLista(${indice})" style="background:none; border:none; color:#e63946; cursor:pointer;">REMOVER</button>
+        `;
+    listaVisualDeIntegrantes.appendChild(itemDeLista);
+  });
 }
 
-// Adicionar ou Salvar Edição
-btnAddMembro.addEventListener('click', () => {
-    const nome = inputNomeMembro.value.trim();
-    const funcao = selectFuncaoMembro.value;
+// Função global para remover integrantes antes da inscrição
+window.removerIntegranteDaLista = function (indiceParaRemover) {
+  listaDeIntegrantesDaBanda.splice(indiceParaRemover, 1);
+  renderizarListaDeIntegrantesNaTela();
+};
 
-    if (!nome) {
-        alert("Por favor, digite o nome do músico.");
-        return;
-    }
+// --- 4. CONTROLE DO ESTILO MUSICAL (CAMPO "OUTROS") ---
+const selectEstiloMusical = document.getElementById("estilo_musical");
+const wrapperCampoOutroEstilo = document.getElementById("wrapper_outro");
 
-    if (editandoIndex !== null) {
-        // Modo Edição
-        listaMembros[editandoIndex] = { nome_musico: nome, funcao: funcao };
-        editandoIndex = null;
-        btnAddMembro.innerText = "ADD";
-    } else {
-        // Modo Inserção
-        listaMembros.push({ nome_musico: nome, funcao: funcao });
-    }
-
-    inputNomeMembro.value = "";
-    renderizarLista();
+selectEstiloMusical.addEventListener("change", function () {
+  // Revela o campo de texto caso a opção "Outros" seja escolhida
+  if (this.value === "Outros") {
+    wrapperCampoOutroEstilo.style.display = "block";
+  } else {
+    wrapperCampoOutroEstilo.style.display = "none";
+  }
 });
 
-// Funções Globais para a Lista
-window.removerMembro = (index) => {
-    listaMembros.splice(index, 1);
-    renderizarLista();
-};
+// --- 5. GERAÇÃO DO COMPROVANTE PARA IMPRESSÃO ---
+// Prepara os dados inseridos para serem exibidos no papel
+function gerarComprovanteDeInscricao(nomeDaBanda, estiloFinal, musicos) {
+  const areaDeDadosDoRecibo = document.getElementById("dados-recibo");
+  const spanDataEmissao = document.getElementById("data-emissao");
 
-window.prepararEdicao = (index) => {
-    const m = listaMembros[index];
-    inputNomeMembro.value = m.nome_musico;
-    selectFuncaoMembro.value = m.funcao;
-    editandoIndex = index;
-    btnAddMembro.innerText = "SALVAR";
-    inputNomeMembro.focus();
-};
+  const dataAtual = new Date();
+  spanDataEmissao.innerText = dataAtual.toLocaleString("pt-BR");
 
+  let conteudoHtmlDoRecibo = `
+        <p><strong>BANDA:</strong> ${nomeDaBanda}</p>
+        <p><strong>ESTILO:</strong> ${estiloFinal}</p>
+        <h3 style="margin-top: 20px;">INTEGRANTES:</h3>
+        <ul style="list-style-type: square;">
+    `;
 
-// --- 3. ENVIO FINAL PARA O SUPABASE ---
+  musicos.forEach(function (musico) {
+    conteudoHtmlDoRecibo += `<li>${musico.nome_musico} - ${musico.funcao}</li>`;
+  });
 
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  conteudoHtmlDoRecibo += `</ul>`;
+  areaDeDadosDoRecibo.innerHTML = conteudoHtmlDoRecibo;
 
-    if (listaMembros.length === 0) {
-        alert("A banda precisa de pelo menos um integrante!");
-        return;
-    }
+  // Chama o comando de impressão do sistema operacional
+  window.print();
+}
 
-    btnEnviar.disabled = true;
-    btnEnviar.innerText = "🤘 ENVIANDO...";
+// --- 6. ENVIO DOS DADOS PARA O SUPABASE ---
+formularioDeInscricao.addEventListener("submit", async function (evento) {
+  evento.preventDefault(); // Impede o envio padrão do formulário
 
-    const formData = new FormData(form);
-    
-    // Define o estilo musical final
-    let estiloFinal = formData.get('estilo_musical');
-    if (estiloFinal === 'Outros') {
-        estiloFinal = formData.get('outro_estilo');
-    }
+  // Validação: A banda precisa ter músicos registrados
+  if (listaDeIntegrantesDaBanda.length === 0) {
+    Swal.fire({
+      icon: "error",
+      title: "Ops!",
+      text: "A banda precisa de integrantes para ser inscrita.",
+      background: "#1e1e1e",
+      color: "#ffffff",
+    });
+    return;
+  }
 
-    // A. Salvar a Banda
-    const { data: banda, error: errBanda } = await _supabase
-        .from('bandas')
-        .insert([{
-            nome_banda: formData.get('nome_banda'),
-            estilo_musical: estiloFinal,
-            whatsapp: formData.get('whatsapp'),
-            instagram: formData.get('instagram')
-        }])
-        .select().single();
+  const botaoDeEnvioFinal = document.getElementById("btnEnviar");
+  botaoDeEnvioFinal.disabled = true; // Impede cliques múltiplos
+  botaoDeEnvioFinal.innerText = "ENVIANDO INSCRIÇÃO... 🤘";
 
-    if (errBanda) {
-        statusMsg.innerHTML = `<span style="color: var(--primary)">Erro na banda: ${errBanda.message}</span>`;
-        btnEnviar.disabled = false;
-        btnEnviar.innerText = "TENTAR NOVAMENTE";
-        return;
-    }
+  const objetoFormData = new FormData(formularioDeInscricao);
 
-    // B. Salvar Integrantes com o ID da banda criada
-    const membrosComId = listaMembros.map(m => ({
-        banda_id: banda.id,
-        nome_musico: m.nome_musico,
-        funcao: m.funcao
-    }));
+  // Determina o valor final do estilo musical
+  let estiloMusicalFinal = objetoFormData.get("estilo_musical");
+  if (estiloMusicalFinal === "Outros") {
+    estiloMusicalFinal = document.getElementById("outro_estilo").value;
+  }
 
-    const { error: errMembros } = await _supabase
-        .from('integrantes')
-        .insert(membrosComId);
+  // PASSO A: Salvar a banda na tabela 'bandas'
+  const { data: registroDaBandaNoBanco, error: erroAoCriarBanda } =
+    await _supabase
+      .from("bandas")
+      .insert([
+        {
+          nome_banda: objetoFormData.get("nome_banda"),
+          estilo_musical: estiloMusicalFinal,
+          whatsapp: objetoFormData.get("whatsapp"),
+          instagram: objetoFormData.get("instagram"),
+        },
+      ])
+      .select()
+      .single();
 
-    if (errMembros) {
-        console.error("Erro nos integrantes:", errMembros);
-        statusMsg.innerHTML = `<span style="color: orange">Banda salva, mas erro ao registrar músicos.</span>`;
-    } else {
-        statusMsg.innerHTML = `<span style="color: var(--success)">🤘 INSCRIÇÃO CONCLUÍDA COM SUCESSO!</span>`;
-        // Limpeza Total
-        form.reset();
-        listaMembros = [];
-        renderizarLista();
-        wrapperOutro.style.display = 'none';
-    }
+  if (erroAoCriarBanda) {
+    Swal.fire({
+      icon: "error",
+      title: "Erro Crítico",
+      text: erroAoCriarBanda.message,
+    });
+    botaoDeEnvioFinal.disabled = false;
+    botaoDeEnvioFinal.innerText = "ENVIAR INSCRIÇÃO 🤘";
+    return;
+  }
 
-    btnEnviar.disabled = false;
-    btnEnviar.innerText = "ENVIAR INSCRIÇÃO 🤘";
+  // PASSO B: Salvar músicos vinculados ao ID da banda criada
+  const listaFinalDeMusicosComIdentificador = listaDeIntegrantesDaBanda.map(
+    function (musico) {
+      return {
+        banda_id: registroDaBandaNoBanco.id,
+        nome_musico: musico.nome_musico,
+        funcao: musico.funcao,
+      };
+    },
+  );
+
+  const { error: erroAoCriarIntegrantes } = await _supabase
+    .from("integrantes")
+    .insert(listaFinalDeMusicosComIdentificador);
+
+  if (erroAoCriarIntegrantes) {
+    Swal.fire({
+      icon: "warning",
+      title: "Atenção",
+      text: "Banda salva, mas erro ao registrar músicos.",
+    });
+  } else {
+    // Sucesso final: Alerta interativo com opção de impressão
+    Swal.fire({
+      icon: "success",
+      title: "🤘 INSCRIÇÃO CONCLUÍDA!",
+      text: "Gostaria de imprimir o seu comprovante?",
+      showCancelButton: true,
+      confirmButtonText: "Sim, Imprimir 🖨️",
+      cancelButtonText: "Não, Ir para o Início",
+      background: "#1e1e1e",
+      color: "#ffffff",
+      confirmButtonColor: "#e63946",
+    }).then(function (resultadoDaEscolha) {
+      if (resultadoDaEscolha.isConfirmed) {
+        gerarComprovanteDeInscricao(
+          registroDaBandaNoBanco.nome_banda,
+          estiloMusicalFinal,
+          listaDeIntegrantesDaBanda,
+        );
+      }
+      // Redireciona o usuário para a página de menu
+      window.location.href = "home.html";
+    });
+  }
 });
