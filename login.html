@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | Rock & Poesia 2026</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="header-image">
+      <img src="banner.jpg" alt="Banner Rock & Poesia" />
+    </div>
+
+    <div class="container">
+      <header>
+        <h1>ACESSO RESTRITO</h1>
+        <p>Painel de Gestão - Edição 2026</p>
+      </header>
+
+      <div class="input-group">
+        <label>Senha de Administrador</label>
+        <input
+          type="password"
+          id="senhaAcesso"
+          placeholder="Digite a senha secreta"
+        />
+      </div>
+
+      <button id="btnLogin" onclick="verificarSenha()">
+        ENTRAR NO PAINEL 🤘
+      </button>
+      <p
+        id="erroLogin"
+        style="
+          color: var(--primary);
+          display: none;
+          margin-top: 15px;
+          text-align: center;
+          font-weight: bold;
+        "
+      >
+        ⚠️ Senha incorreta!
+      </p>
+
+      <div style="margin-top: 20px; text-align: center">
+        <a
+          href="home.html"
+          style="color: #888; text-decoration: none; font-size: 0.8rem"
+          >← Voltar para a Home</a
+        >
+      </div>
+    </div>
+
+    <script>
+      function verificarSenha() {
+        const senhaDigitada = document.getElementById("senhaAcesso").value;
+        const SENHA_MESTRA = "rock2026"; // Você pode alterar sua senha aqui
+
+        if (senhaDigitada === SENHA_MESTRA) {
+          // Cria uma sessão temporária no navegador
+          sessionStorage.setItem("admin_logado", "true");
+          // Redireciona para a página de gestão
+          window.location.href = "gestao.html";
+        } else {
+          const msgErro = document.getElementById("erroLogin");
+          msgErro.style.display = "block";
+          document.getElementById("senhaAcesso").value = "";
+          document.getElementById("senhaAcesso").focus();
+        }
+      }
+
+      // Permite apertar "Enter" para logar
+      document
+        .getElementById("senhaAcesso")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            verificarSenha();
+          }
+        });
+    </script>
+  </body>
+</html>

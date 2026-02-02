@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal | Rock & Poesia 2026</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .home-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 20px;
+      }
+      .btn-home {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: var(--light-gray);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        border: 1px solid #444;
+        transition: 0.3s;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .btn-home:hover {
+        border-color: var(--primary);
+        background: #222;
+        transform: translateY(-2px);
+      }
+      .icon-large {
+        font-size: 1.5rem;
+        margin-right: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header-image">
+      <img src="banner.jpg" alt="Banner Rock & Poesia" />
+    </div>
+
+    <div class="container">
+      <header>
+        <h1>ROCK & POESIA</h1>
+        <p>Edição Especial - 2026</p>
+      </header>
+
+      <div class="home-menu">
+        <a href="index.html" class="btn-home">
+          <span class="icon-large">🎸</span>
+          INSCREVER BANDA (2026)
+        </a>
+
+        <a href="gestao.html" class="btn-home">
+          <span class="icon-large">📊</span>
+          PAINEL DE GESTÃO
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,5 +1,6 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
+<<<<<<< HEAD
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -97,10 +98,71 @@
 
     <div class="header-image">
         <img src="banner.jpg" alt="Banner Rock & Poesia">
+=======
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inscrição | Rock & Poesia 2026</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css"
+    />
+  </head>
+  <body class="no-scroll">
+    <div id="splash">
+      <div class="splash-content">
+        <img src="banner.jpg" alt="Logo Rock & Poesia" class="logo-animada" />
+        <h2 id="welcome-text" class="hidden">
+          Seja Bem Vindo à Inscrição do Rock & Poesia 2026
+        </h2>
+      </div>
+>>>>>>> 85b05e4d2439c565073a7a48753d8887577de998
     </div>
 
-    <div class="container">
+    <div id="comprovante-impressao" class="somente-impressao">
+      <div style="text-align: center">
+        <h1 style="color: #e63946; font-size: 28px">
+          COMPROVANTE DE INSCRIÇÃO
+        </h1>
+        <p style="font-size: 18px">Festival Rock & Poesia - Edição 2026</p>
+      </div>
+      <hr style="border: 1px solid #000000; margin: 25px 0" />
+
+      <div id="dados-recibo"></div>
+
+      <div
+        style="
+          margin-top: 60px;
+          border-top: 1px dashed #000000;
+          padding-top: 15px;
+        "
+      >
+        <p style="font-size: 12px">
+          Este documento confirma a submissão dos dados ao banco oficial do
+          evento.
+        </p>
+        <p style="font-size: 12px">
+          Gerado em: <span id="data-emissao"></span>
+        </p>
+      </div>
+    </div>
+
+    <div id="main-content" style="display: none">
+      <div class="header-image">
+        <img src="banner.jpg" alt="Banner Rock & Poesia 2026" />
+      </div>
+
+      <div class="container">
         <header>
+<<<<<<< HEAD
             <h1>ROCK & POESIA</h1>
             <p>Selecione uma opção para continuar</p>
         </header>
@@ -118,3 +180,116 @@
 
 </body>
 </html>
+=======
+          <h1>ROCK & POESIA</h1>
+          <p>Garanta a participação da sua banda no palco de 2026!</p>
+          <nav style="margin-bottom: 25px; text-align: center">
+            <a
+              href="home.html"
+              style="
+                color: var(--primary);
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: bold;
+              "
+            >
+              <i class="fas fa-arrow-left"></i> VOLTAR PARA A HOME
+            </a>
+          </nav>
+        </header>
+
+        <form id="formInscricao">
+          <div class="input-group">
+            <label for="nome_banda">Nome Oficial da Banda</label>
+            <input
+              type="text"
+              id="nome_banda"
+              name="nome_banda"
+              required
+              placeholder="Digite o nome da sua banda"
+            />
+          </div>
+
+          <div class="input-group">
+            <label>Adicionar Integrantes</label>
+            <div class="add-row">
+              <input
+                type="text"
+                id="nome_membro"
+                placeholder="Nome completo do músico"
+              />
+              <select id="funcao_membro">
+                <option value="Vocalista">Vocalista</option>
+                <option value="Baixista">Baixista</option>
+                <option value="Guitarra Base">Guitarra Base</option>
+                <option value="Guitarra Solo">Guitarra Solo</option>
+                <option value="Bateria">Bateria</option>
+                <option value="Tecladista">Tecladista</option>
+                <option value="Outros">Outros</option>
+              </select>
+              <button type="button" id="btnAddMembro">
+                <i class="fas fa-plus-circle"></i> ADD
+              </button>
+            </div>
+            <ul id="listaVisual"></ul>
+          </div>
+
+          <div class="input-group">
+            <label for="estilo_musical">Estilo Musical</label>
+            <select id="estilo_musical" name="estilo_musical" required>
+              <option value="">Selecione uma opção...</option>
+              <option value="Hard Rock">Hard Rock</option>
+              <option value="Metal">Metal</option>
+              <option value="Grunge">Grunge</option>
+              <option value="Punk Rock">Punk Rock</option>
+              <option value="Classic Rock">Classic Rock</option>
+              <option value="Outros">Outros (Especifique abaixo)</option>
+            </select>
+          </div>
+
+          <div id="wrapper_outro" class="input-group" style="display: none">
+            <label for="outro_estilo">Qual o seu Estilo?</label>
+            <input
+              type="text"
+              id="outro_estilo"
+              name="outro_estilo"
+              placeholder="Exemplo: Indie Rock / Blues Rock"
+            />
+          </div>
+
+          <div class="input-group">
+            <label for="whatsapp">Número de WhatsApp (DDD + Número)</label>
+            <input
+              type="text"
+              id="whatsapp"
+              name="whatsapp"
+              required
+              placeholder="(00) 00000-0000"
+            />
+          </div>
+
+          <div class="input-group">
+            <label for="instagram">Link do Instagram</label>
+            <input
+              type="text"
+              id="instagram"
+              name="instagram"
+              placeholder="@nomedabanda"
+            />
+          </div>
+
+          <button type="submit" id="btnEnviar">
+            <i class="fas fa-rocket"></i> FINALIZAR INSCRIÇÃO 🤘
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+>>>>>>> 85b05e4d2439c565073a7a48753d8887577de998
