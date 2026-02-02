@@ -1,32 +1,43 @@
-/* --- VARIÁVEIS E RESET --- */
+/* --- 1. VARIÁVEIS E CONFIGURAÇÕES GERAIS --- */
 :root {
-    --primary: #e63946;    /* Vermelho Rock */
-    --dark: #121212;       /* Fundo Total */
-    --gray: #1e1e1e;       /* Fundo do Card */
-    --light-gray: #2a2a2a; /* Fundo dos Inputs */
+    --primary: #e63946;
+    --dark: #121212;
+    --gray: #1e1e1e;
+    --light-gray: #2a2a2a;
     --text: #f1f1f1;
-    --success: #28a745;
+    --success: #25d366;
 }
 
 body {
-    background: var(--dark);
+    background-color: var(--dark);
     color: var(--text);
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    margin: 0;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 40px;
+    padding-left: 20px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    line-height: 1.6;
 }
 
-/* --- BANNER SUPERIOR --- */
+/* --- 2. BANNER --- */
 .header-image {
     width: 100%;
     max-width: 500px;
-    border-radius: 8px;
-    overflow: hidden;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    overflow-x: hidden;
+    overflow-y: hidden;
     margin-bottom: 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.6);
 }
 
 .header-image img {
@@ -36,33 +47,43 @@ body {
     display: block;
 }
 
-/* --- CONTAINER DO FORMULÁRIO --- */
+/* --- 3. CONTAINER PRINCIPAL --- */
 .container {
     width: 100%;
     max-width: 500px;
-    background: var(--gray);
-    padding: 25px;
-    border-radius: 12px;
-    border-top: 6px solid var(--primary);
+    background-color: var(--gray);
+    padding-top: 25px;
+    padding-right: 25px;
+    padding-bottom: 25px;
+    padding-left: 25px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-top-width: 6px;
+    border-top-style: solid;
+    border-top-color: var(--primary);
     box-sizing: border-box;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-h1 { 
-    text-align: center; 
-    margin: 0; 
-    letter-spacing: 2px; 
+h1 {
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
     text-transform: uppercase;
+    font-size: 2.2rem;
 }
 
-p { 
-    text-align: center; 
-    color: #888; 
-    margin-bottom: 25px; 
-    font-size: 0.9rem; 
+p {
+    text-align: center;
+    color: #888888;
+    margin-bottom: 25px;
+    font-size: 0.9rem;
 }
 
-/* --- GRUPOS DE INPUT --- */
+/* --- 4. INPUTS E FORMULÁRIOS --- */
 .input-group {
     margin-bottom: 20px;
 }
@@ -72,171 +93,198 @@ label {
     margin-bottom: 8px;
     font-weight: bold;
     font-size: 0.85rem;
-    color: #bbb;
+    color: #bbbbbb;
 }
 
 input, select {
     width: 100%;
-    padding: 12px;
-    background: var(--light-gray);
-    border: 1px solid #444;
-    color: white;
-    border-radius: 6px;
+    padding-top: 12px;
+    padding-right: 12px;
+    padding-bottom: 12px;
+    padding-left: 12px;
+    background-color: var(--light-gray);
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: #444444;
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: #444444;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #444444;
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-left-color: #444444;
+    color: #ffffff;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
     box-sizing: border-box;
     font-size: 1rem;
-    transition: border-color 0.3s;
+    transition-property: border-color;
+    transition-duration: 0.3s;
 }
 
 input:focus, select:focus {
-    border-color: var(--primary);
     outline: none;
+    border-color: var(--primary);
 }
 
-/* --- LINHAS COM BOTÕES (ADD / EDIT / DEL) --- */
+/* --- 5. LISTA DE INTEGRANTES --- */
+#listaVisual {
+    list-style-type: none;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    margin-top: 15px;
+}
+
+#listaVisual li {
+    background-color: rgba(255, 255, 255, 0.03);
+    padding-top: 12px;
+    padding-right: 12px;
+    padding-bottom: 12px;
+    padding-left: 12px;
+    margin-bottom: 8px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left-width: 4px;
+    border-left-style: solid;
+    border-left-color: var(--primary);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 6. BOTÕES DE AÇÃO --- */
 .add-row {
     display: flex;
     gap: 8px;
 }
 
-/* Botão ADD de Integrantes */
-#btnAddMembro {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 0 15px;
-    cursor: pointer;
-    border-radius: 6px;
-    font-weight: bold;
-    transition: 0.3s;
-    min-width: 70px;
-}
-
-#btnAddMembro:hover {
-    background: #b91d2a;
-    transform: scale(1.02);
-}
-
-/* --- BOTÕES DE AÇÃO (✏️ e 🗑️) --- */
 .btn-acao {
-    background: #333;
-    border: 1px solid #444;
-    color: white;
+    background-color: #333333;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #444444;
+    color: #ffffff;
     cursor: pointer;
     padding: 8px 12px;
     border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
+    transition: 0.2s;
 }
 
 .btn-acao:hover {
-    background: #444;
-    border-color: #666;
+    background-color: #444444;
 }
 
-/* Cores específicas para botões de excluir */
-#btnResetEstilo, #btnDelOutro {
-    background: rgba(230, 57, 70, 0.1);
-    border-color: rgba(230, 57, 70, 0.3);
-}
-
-#btnResetEstilo:hover, #btnDelOutro:hover {
-    background: var(--primary);
-    color: white;
-}
-
-/* --- LISTA DE INTEGRANTES --- */
-#listaVisual {
-    list-style: none;
-    padding: 0;
-    margin-top: 15px;
-}
-
-#listaVisual li {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 12px;
-    margin-bottom: 8px;
-    border-radius: 6px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-left: 4px solid var(--primary);
-    animation: slideIn 0.3s ease-out;
-}
-
-#listaVisual li div:first-child {
-    flex-grow: 1;
-}
-
-#listaVisual li strong {
-    display: block;
-    color: #fff;
-}
-
-#listaVisual li small {
-    color: #888;
-}
-
-/* Container de botões na lista */
-.acoes-lista {
-    display: flex;
-    gap: 6px;
-}
-
-/* --- BOTÃO DE ENVIO FINAL --- */
 button[type="submit"] {
     width: 100%;
     padding: 16px;
-    background: var(--primary);
+    background-color: var(--primary);
     border: none;
-    color: white;
+    color: #ffffff;
     font-weight: bold;
     font-size: 1.1rem;
     cursor: pointer;
     margin-top: 10px;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(230, 57, 70, 0.3);
     transition: 0.3s;
+    box-shadow: 0px 4px 15px rgba(230, 57, 70, 0.3);
 }
 
 button[type="submit"]:hover {
-    background: #b91d2a;
+    filter: brightness(1.2);
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(230, 57, 70, 0.4);
-}
-
-button[type="submit"]:active {
-    transform: translateY(0);
 }
 
 button[type="submit"]:disabled {
-    background: #555;
+    background-color: #555;
     cursor: not-allowed;
-    box-shadow: none;
+    transform: none;
 }
 
-/* --- MENSAGEM DE STATUS --- */
-#status {
+/* --- 7. PAINEL DO GESTOR (TABELA) --- */
+.container-gestor {
+    max-width: 1100px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
     margin-top: 20px;
+    background-color: var(--gray);
+}
+
+th, td {
+    padding: 15px;
+    border: 1px solid #333;
+    text-align: left;
+}
+
+th {
+    background-color: var(--primary);
+    color: white;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+tr:nth-child(even) {
+    background-color: #252525;
+}
+
+tr:hover {
+    background-color: #2a2a2a;
+}
+
+/* --- 8. STATUS E MENSAGENS --- */
+#status {
     text-align: center;
-    font-weight: bold;
-    font-size: 1rem;
+    margin-bottom: 15px;
 }
 
-/* --- ANIMAÇÃO --- */
-@keyframes slideIn {
-    from { opacity: 0; transform: translateX(-10px); }
-    to { opacity: 1; transform: translateX(0); }
+.success-msg { color: var(--success); }
+.error-msg { color: var(--primary); }
+
+/* --- 9. AUXILIARES --- */
+.link-voltar {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #888;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: 0.2s;
 }
 
-/* --- RESPONSIVIDADE --- */
-@media (max-width: 480px) {
-    .container {
-        padding: 15px;
-    }
-    
-    .add-row {
-        flex-direction: row; /* Mantém os botões ao lado no celular se possível */
-    }
+.link-voltar:hover {
+    color: var(--text);
+}
+
+/* --- 10. RESPONSIVIDADE --- */
+@media (max-width: 600px) {
+    body { padding: 10px; }
+    .container { padding: 15px; }
+    h1 { font-size: 1.8rem; }
+    .btn-menu { padding: 15px; font-size: 1.1rem; }
+    th, td { padding: 10px; font-size: 0.8rem; }
 }

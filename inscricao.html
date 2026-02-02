@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscrição | Rock & Poesia</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="header-image">
+        <img src="banner.jpg" alt="Banner Rock & Poesia">
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>ROCK & POESIA</h1>
+            <p>Inscreva sua banda no festival</p>
+        </header>
+
+        <form id="formInscricao">
+            <div class="input-group">
+                <label>1 - Nome da Banda</label>
+                <input type="text" name="nome_banda" required placeholder="Ex: Echoes of Rock">
+            </div>
+
+            <div class="input-group">
+                <label>2 - Integrantes (Nome e Função)</label>
+                <div class="add-row">
+                    <input type="text" id="nome_membro" placeholder="Nome do integrante">
+                    <select id="funcao_membro">
+                        <option value="Vocalista">Vocalista</option>
+                        <option value="Baixista">Baixista</option>
+                        <option value="Guitarra base">Guitarra base</option>
+                        <option value="Guitarra solo">Guitarra solo</option>
+                        <option value="Bateria">Bateria</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                    <button type="button" id="btnAddMembro">ADD</button>
+                </div>
+                <ul id="listaVisual"></ul>
+            </div>
+
+            <div class="input-group">
+                <label>3 - Estilo Musical</label>
+                <div style="display: flex; gap: 8px;">
+                    <select id="estilo_musical" name="estilo_musical" required>
+                        <option value="">Selecione...</option>
+                        <option value="Hard Rock">Hard Rock</option>
+                        <option value="Metal">Metal</option>
+                        <option value="Indie">Indie</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                    <button type="button" id="btnResetEstilo" class="btn-acao">🗑️</button>
+                </div>
+            </div>
+
+            <div id="wrapper_outro" style="display: none; margin-bottom: 20px;">
+                <label>Qual estilo?</label>
+                <input type="text" id="outro_estilo" name="outro_estilo" placeholder="Digite o estilo">
+            </div>
+
+            <div class="input-group">
+                <label>4 - Vídeos da banda (Links)</label>
+                <input type="text" name="videos_banda" placeholder="YouTube, Drive ou Redes">
+            </div>
+
+            <div class="input-group">
+                <label>5 - Possui músicas autorais?</label>
+                <select name="possui_autorais" required>
+                    <option value="">Selecione...</option>
+                    <option value="SIM">SIM</option>
+                    <option value="NÃO">NÃO</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>6 - Instagram ou YouTube da banda</label>
+                <input type="text" name="redes_sociais" placeholder="@banda ou link">
+            </div>
+
+            <div class="input-group">
+                <label>WhatsApp de Contato</label>
+                <input type="text" name="whatsapp" required placeholder="(51) 99999-9999">
+            </div>
+
+            <div id="status" style="margin-bottom: 15px; text-align: center; font-weight: bold;"></div>
+
+            <button type="submit" id="btnEnviar">ENVIAR INSCRIÇÃO 🤘</button>
+            <a href="index.html" class="link-voltar">← Voltar ao Menu</a>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
