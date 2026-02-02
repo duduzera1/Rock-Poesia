@@ -1,16 +1,16 @@
-/* --- 1. VARIÁVEIS DE CORES --- */
+/* --- 1. CONFIGURAÇÃO DE CORES (VARIÁVEIS) --- */
 :root {
-    --primary: #e63946;
-    --dark: #121212;
-    --gray: #1e1e1e;
-    --light-gray: #2a2a2a;
-    --text: #f1f1f1;
-    --success: #25d366;
-    --info: #3498db;
+    --cor-primaria: #e63946;
+    --cor-fundo-escuro: #121212;
+    --cor-card-cinza: #1e1e1e;
+    --cor-input-cinza: #2a2a2a;
+    --cor-texto-claro: #f1f1f1;
+    --cor-sucesso: #25d366;
 }
 
-/* --- 2. CONFIGURAÇÕES GERAIS --- */
-html, body {
+/* --- 2. RESET E BASE DO DOCUMENTO --- */
+html,
+body {
     margin-top: 0px;
     margin-right: 0px;
     margin-bottom: 0px;
@@ -24,22 +24,19 @@ html, body {
 }
 
 body {
-    background-color: var(--dark);
-    color: var(--text);
+    background-color: var(--cor-fundo-escuro);
+    color: var(--cor-texto-claro);
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
+    align-items: center; /* Centraliza horizontalmente */
+    justify-content: flex-start;
+    padding-top: 40px;
     padding-right: 20px;
-    padding-bottom: 40px;
+    padding-bottom: 60px;
     padding-left: 20px;
     line-height: 1.6;
-}
-
-.no-scroll {
-    overflow-x: hidden;
-    overflow-y: hidden;
+    box-sizing: border-box;
 }
 
 /* --- 3. TELA DE ABERTURA (SPLASH SCREEN) --- */
@@ -51,223 +48,189 @@ body {
     height: 100%;
     background-color: #000000;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     z-index: 9999;
     transition-property: opacity;
     transition-duration: 1s;
-    transition-timing-function: ease-out;
+}
+
+.splash-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .logo-animada {
     width: 280px;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-    border-bottom-left-radius: 12px;
+    border-radius: 12px;
     opacity: 0;
-    transform: scale(0.5);
-    animation-name: surgeLogo;
+    transform: scale(0.8);
+    animation-name: animacaoLogo;
     animation-duration: 2s;
     animation-fill-mode: forwards;
-    animation-timing-function: ease-in-out;
 }
 
-@keyframes surgeLogo {
-    from { opacity: 0; transform: scale(0.5); }
-    to { opacity: 1; transform: scale(1); }
+@keyframes animacaoLogo {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
-/* --- 4. BANNER E CONTAINER --- */
+/* --- 4. CONTAINER DO FORMULÁRIO --- */
+.container {
+    width: 100%;
+    max-width: 550px;
+    background-color: var(--cor-card-cinza);
+    padding-top: 40px;
+    padding-right: 40px;
+    padding-bottom: 40px;
+    padding-left: 40px;
+    border-top-width: 6px;
+    border-top-style: solid;
+    border-top-color: var(--cor-primaria);
+    border-radius: 12px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+}
+
+/* --- 5. CABEÇALHO --- */
 .header-image {
     width: 100%;
-    max-width: 500px;
-    margin-bottom: 20px;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.6);
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
 }
 
 .header-image img {
     width: 100%;
+    max-width: 500px;
     height: 180px;
     object-fit: cover;
-    display: block;
+    border-radius: 8px;
 }
 
-.container {
-    width: 100%;
-    max-width: 500px;
-    background-color: var(--gray);
-    padding-top: 30px;
-    padding-right: 30px;
-    padding-bottom: 30px;
-    padding-left: 30px;
-    border-top-width: 6px;
-    border-top-style: solid;
-    border-top-color: var(--primary);
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-    border-bottom-left-radius: 12px;
-    box-sizing: border-box;
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+h1 {
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 15px;
+    font-size: 2rem;
+    letter-spacing: 1px;
 }
 
-/* --- 5. FORMULÁRIOS E INPUTS --- */
+/* --- 6. CAIXAS DE PREENCHIMENTO (INPUTS) --- */
+/* Espaçamento de 35px entre cada bloco conforme solicitado */
 .input-group {
-    margin-bottom: 20px;
+    margin-bottom: 35px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    font-size: 0.85rem;
+    margin-bottom: 12px;
+    font-weight: 600;
     color: #bbbbbb;
+    font-size: 0.95rem;
 }
 
-input, select {
-    width: 100%;
-    padding-top: 12px;
-    padding-right: 12px;
-    padding-bottom: 12px;
-    padding-left: 12px;
-    background-color: var(--light-gray);
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
-    border-top-style: solid;
-    border-right-style: solid;
-    border-bottom-style: solid;
-    border-left-style: solid;
-    border-top-color: #444444;
-    border-right-color: #444444;
-    border-bottom-color: #444444;
-    border-left-color: #444444;
-    color: #ffffff;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
-    box-sizing: border-box;
-    font-size: 1rem;
-    transition-property: border-color;
-    transition-duration: 0.3s;
-}
-
-input:focus, select:focus {
-    outline: none;
-    border-top-color: var(--primary);
-    border-right-color: var(--primary);
-    border-bottom-color: var(--primary);
-    border-left-color: var(--primary);
-}
-
-/* --- 6. BOTÕES --- */
-.add-row {
-    display: flex;
-    column-gap: 10px;
-}
-
-#btnAddMembro {
-    background-color: var(--success);
-    color: #ffffff;
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: none;
-    border-left-style: none;
-    padding-top: 10px;
-    padding-right: 20px;
-    padding-bottom: 10px;
-    padding-left: 20px;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    transition-property: all;
-    transition-duration: 0.3s;
-}
-
-button[type="submit"], #btnEnviar {
+input,
+select {
     width: 100%;
     padding-top: 16px;
     padding-right: 16px;
     padding-bottom: 16px;
     padding-left: 16px;
-    background-color: var(--primary);
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: none;
-    border-left-style: none;
+    background-color: var(--cor-input-cinza);
+    border-width: 1px;
+    border-style: solid;
+    border-color: #444444;
     color: #ffffff;
-    font-weight: bold;
-    font-size: 1.1rem;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
-    text-transform: uppercase;
-    cursor: pointer;
-    box-shadow: 0px 4px 15px rgba(230, 57, 70, 0.3);
-    transition-property: all;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition-property: border-color, box-shadow;
     transition-duration: 0.3s;
 }
 
-button:hover {
-    filter: brightness(1.2);
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+    box-shadow: 0px 0px 10px rgba(230, 57, 70, 0.2);
+}
+
+/* --- 7. GERENCIAMENTO DE INTEGRANTES --- */
+.add-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+#btnAddMembro {
+    background-color: var(--cor-sucesso);
+    color: white;
+    border: none;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#listaVisual {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 35px; /* Espaço após a lista para a próxima caixa */
+}
+
+#listaVisual li {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* --- 8. BOTÃO DE ENVIO FINAL --- */
+#btnEnviar {
+    width: 100%;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    background-color: var(--cor-primaria);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0px 4px 15px rgba(230, 57, 70, 0.3);
+    transition-property: transform;
+    transition-duration: 0.2s;
+}
+
+#btnEnviar:hover {
     transform: translateY(-2px);
 }
 
-/* --- 7. TABELAS (GESTOR) --- */
-.table-responsive {
-    overflow-x: auto;
-    width: 100%;
+#btnEnviar:disabled {
+    background-color: #555555;
+    cursor: not-allowed;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th, td {
-    padding-top: 15px;
-    padding-right: 15px;
-    padding-bottom: 15px;
-    padding-left: 15px;
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
-    border-top-style: solid;
-    border-right-style: solid;
-    border-bottom-style: solid;
-    border-left-style: solid;
-    border-top-color: #333333;
-    border-right-color: #333333;
-    border-bottom-color: #333333;
-    border-left-color: #333333;
-}
-
-th {
-    background-color: var(--primary);
-    text-transform: uppercase;
-}
-
-/* --- 8. WHATSAPP LINK --- */
-.whatsapp-link {
-    color: #25d366;
-    text-decoration-line: none;
-    font-weight: bold;
-    display: inline-flex;
-    align-items: center;
-    column-gap: 6px;
+/* --- 9. AJUSTES PARA CELULAR --- */
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
 }
