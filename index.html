@@ -1,295 +1,81 @@
 <!doctype html>
 <html lang="pt-br">
-<<<<<<< HEAD
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Início | Rock & Poesia</title>
+    <title>Rock & Poesia | 2026</title>
+    
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css">
+
     <style>
-        /* Estilos extensos para os botões de navegação da Home */
         .menu-container {
             display: flex;
             flex-direction: column;
             gap: 20px;
-            margin-top: 30px;
-            margin-right: 0px;
-            margin-bottom: 0px;
-            margin-left: 0px;
+            margin: 30px 0;
         }
 
         .btn-menu {
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Padding sem abreviação */
-            padding-top: 25px;
-            padding-right: 25px;
-            padding-bottom: 25px;
-            padding-left: 25px;
+            padding: 25px;
             background-color: var(--light-gray);
-            /* Borda sem abreviação */
-            border-top-width: 2px;
-            border-top-style: solid;
-            border-top-color: #444444;
-            border-right-width: 2px;
-            border-right-style: solid;
-            border-right-color: #444444;
-            border-bottom-width: 2px;
-            border-bottom-style: solid;
-            border-bottom-color: #444444;
-            border-left-width: 2px;
-            border-left-style: solid;
-            border-left-color: #444444;
+            border: 2px solid #444;
             color: #ffffff;
-            text-decoration-line: none;
-            /* Border-radius sem abreviação */
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-            border-bottom-right-radius: 8px;
-            border-bottom-left-radius: 8px;
+            text-decoration: none;
+            border-radius: 8px;
             font-weight: bold;
             font-size: 1.3rem;
-            /* Transição sem abreviação */
-            transition-property: all;
-            transition-duration: 0.3s;
-            transition-timing-function: ease;
+            transition: all 0.3s ease;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         .btn-menu:hover {
-            border-top-color: var(--primary);
-            border-right-color: var(--primary);
-            border-bottom-color: var(--primary);
-            border-left-color: var(--primary);
+            border-color: var(--primary);
             background-color: #252525;
             transform: translateY(-5px);
             box-shadow: 0px 6px 15px rgba(230, 57, 70, 0.2);
         }
 
-        .btn-menu span {
-            margin-right: 15px;
-            font-size: 1.8rem;
-        }
-
-        header h1 {
-            font-size: 2.2rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-top: 0px;
-            margin-bottom: 10px;
-        }
-
-        /* Centralização e ajustes finos */
-        .container {
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        header p {
-            text-align: center;
-            color: #888;
-            margin-bottom: 25px;
-        }
+        .btn-menu span { margin-right: 15px; font-size: 1.8rem; }
     </style>
 </head>
 <body>
 
-    <div class="header-image">
-        <img src="banner.jpg" alt="Banner Rock & Poesia">
-=======
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inscrição | Rock & Poesia 2026</title>
-
-    <link rel="stylesheet" href="style.css" />
-
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css"
-    />
-  </head>
-  <body class="no-scroll">
     <div id="splash">
-      <div class="splash-content">
-        <img src="banner.jpg" alt="Logo Rock & Poesia" class="logo-animada" />
-        <h2 id="welcome-text" class="hidden">
-          Seja Bem Vindo à Inscrição do Rock & Poesia 2026
-        </h2>
-      </div>
->>>>>>> 85b05e4d2439c565073a7a48753d8887577de998
-    </div>
-
-    <div id="comprovante-impressao" class="somente-impressao">
-      <div style="text-align: center">
-        <h1 style="color: #e63946; font-size: 28px">
-          COMPROVANTE DE INSCRIÇÃO
-        </h1>
-        <p style="font-size: 18px">Festival Rock & Poesia - Edição 2026</p>
-      </div>
-      <hr style="border: 1px solid #000000; margin: 25px 0" />
-
-      <div id="dados-recibo"></div>
-
-      <div
-        style="
-          margin-top: 60px;
-          border-top: 1px dashed #000000;
-          padding-top: 15px;
-        "
-      >
-        <p style="font-size: 12px">
-          Este documento confirma a submissão dos dados ao banco oficial do
-          evento.
-        </p>
-        <p style="font-size: 12px">
-          Gerado em: <span id="data-emissao"></span>
-        </p>
-      </div>
-    </div>
-
-    <div id="main-content" style="display: none">
-      <div class="header-image">
-        <img src="banner.jpg" alt="Banner Rock & Poesia 2026" />
-      </div>
-
-      <div class="container">
-        <header>
-<<<<<<< HEAD
-            <h1>ROCK & POESIA</h1>
-            <p>Selecione uma opção para continuar</p>
-        </header>
-
-        <div class="menu-container">
-            <a href="inscricao.html" class="btn-menu">
-                <span>🎸</span> Inscrição de Bandas
-            </a>
-
-            <a href="gestor.html" class="btn-menu">
-                <span>🛡️</span> Painel do Gestor
-            </a>
+        <div class="splash-content">
+            <img src="banner.jpg" alt="Logo" class="logo-animada">
+            <h2 id="welcome-text">Bem-vindo ao Rock & Poesia 2026</h2>
         </div>
     </div>
 
-</body>
-</html>
-=======
-          <h1>ROCK & POESIA</h1>
-          <p>Garanta a participação da sua banda no palco de 2026!</p>
-          <nav style="margin-bottom: 25px; text-align: center">
-            <a
-              href="home.html"
-              style="
-                color: var(--primary);
-                text-decoration: none;
-                font-size: 14px;
-                font-weight: bold;
-              "
-            >
-              <i class="fas fa-arrow-left"></i> VOLTAR PARA A HOME
-            </a>
-          </nav>
-        </header>
+    <div id="main-content">
+        <div class="header-image">
+            <img src="banner.jpg" alt="Banner Rock & Poesia">
+        </div>
 
-        <form id="formInscricao">
-          <div class="input-group">
-            <label for="nome_banda">Nome Oficial da Banda</label>
-            <input
-              type="text"
-              id="nome_banda"
-              name="nome_banda"
-              required
-              placeholder="Digite o nome da sua banda"
-            />
-          </div>
+        <div class="container">
+            <header style="text-align: center;">
+                <h1>ROCK & POESIA</h1>
+                <p>Selecione uma opção para continuar</p>
+            </header>
 
-          <div class="input-group">
-            <label>Adicionar Integrantes</label>
-            <div class="add-row">
-              <input
-                type="text"
-                id="nome_membro"
-                placeholder="Nome completo do músico"
-              />
-              <select id="funcao_membro">
-                <option value="Vocalista">Vocalista</option>
-                <option value="Baixista">Baixista</option>
-                <option value="Guitarra Base">Guitarra Base</option>
-                <option value="Guitarra Solo">Guitarra Solo</option>
-                <option value="Bateria">Bateria</option>
-                <option value="Tecladista">Tecladista</option>
-                <option value="Outros">Outros</option>
-              </select>
-              <button type="button" id="btnAddMembro">
-                <i class="fas fa-plus-circle"></i> ADD
-              </button>
+            <div class="menu-container">
+                <a href="inscricao.html" class="btn-menu">
+                    <span>🎸</span> Inscrição de Bandas
+                </a>
+                <a href="gestor.html" class="btn-menu">
+                    <span>🛡️</span> Painel do Gestor
+                </a>
             </div>
-            <ul id="listaVisual"></ul>
-          </div>
-
-          <div class="input-group">
-            <label for="estilo_musical">Estilo Musical</label>
-            <select id="estilo_musical" name="estilo_musical" required>
-              <option value="">Selecione uma opção...</option>
-              <option value="Hard Rock">Hard Rock</option>
-              <option value="Metal">Metal</option>
-              <option value="Grunge">Grunge</option>
-              <option value="Punk Rock">Punk Rock</option>
-              <option value="Classic Rock">Classic Rock</option>
-              <option value="Outros">Outros (Especifique abaixo)</option>
-            </select>
-          </div>
-
-          <div id="wrapper_outro" class="input-group" style="display: none">
-            <label for="outro_estilo">Qual o seu Estilo?</label>
-            <input
-              type="text"
-              id="outro_estilo"
-              name="outro_estilo"
-              placeholder="Exemplo: Indie Rock / Blues Rock"
-            />
-          </div>
-
-          <div class="input-group">
-            <label for="whatsapp">Número de WhatsApp (DDD + Número)</label>
-            <input
-              type="text"
-              id="whatsapp"
-              name="whatsapp"
-              required
-              placeholder="(00) 00000-0000"
-            />
-          </div>
-
-          <div class="input-group">
-            <label for="instagram">Link do Instagram</label>
-            <input
-              type="text"
-              id="instagram"
-              name="instagram"
-              placeholder="@nomedabanda"
-            />
-          </div>
-
-          <button type="submit" id="btnEnviar">
-            <i class="fas fa-rocket"></i> FINALIZAR INSCRIÇÃO 🤘
-          </button>
-        </form>
-      </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script src="script.js"></script>
-  </body>
+</body>
 </html>
->>>>>>> 85b05e4d2439c565073a7a48753d8887577de998
