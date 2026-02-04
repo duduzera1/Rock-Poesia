@@ -84,7 +84,7 @@ if (selectEstilo && wrapperOutro) {
     });
 }
 
-// --- 4. ENVIO DO FORMULÁRIO (PROTEÇÃO CONTRA ERRO DE NULL) ---
+// --- 4. ENVIO DO FORMULÁRIO (CORRIGIDO PARA ENVIAR VÍDEOS E AUTORAIS) ---
 const form = document.getElementById("formInscricao");
 if (form) {
     form.addEventListener("submit", async function(e) {
@@ -100,17 +100,28 @@ if (form) {
         btn.innerText = "ENVIANDO... 🤘";
 
         const formData = new FormData(this);
+        
+        // Trata o Estilo Musical
         let estiloFinal = formData.get("estilo_musical");
         if (estiloFinal === "Outros") {
             estiloFinal = document.getElementById("outro_estilo").value;
         }
 
+        // --- TRATAMENTO DE SEGURANÇA PARA O LINK DE VÍDEO ---
+        let linkVideoLimpo = (formData.get("videos_banda") || "").trim();
+        if (linkVideoLimpo !== "" && !linkVideoLimpo.startsWith('http')) {
+            linkVideoLimpo = 'https://' + linkVideoLimpo;
+        }
+
         try {
+            // AQUI ESTÁ A CORREÇÃO: Adicionamos 'videos_banda' e 'possui_autorais'
             const { data: banda, error: erroBanda } = await _supabase.from("bandas").insert([{
                 nome_banda: formData.get("nome_banda"),
                 estilo_musical: estiloFinal,
                 whatsapp: formData.get("whatsapp"),
-                instagram: formData.get("redes_sociais")
+                redes_sociais: formData.get("redes_sociais"),
+                videos_banda: linkVideoLimpo, // Faltava esta linha
+                possui_autorais: formData.get("possui_autorais") // Faltava esta linha
             }]).select().single();
 
             if (erroBanda) throw erroBanda;
@@ -123,8 +134,13 @@ if (form) {
 
             await _supabase.from("integrantes").insert(membrosParaInserir);
 
-            Swal.fire({ icon: "success", title: "SUCESSO!", text: "Banda inscrita!", background: "#1e1e1e", color: "#fff" })
-                .then(() => window.location.reload());
+            Swal.fire({ 
+                icon: "success", 
+                title: "SUCESSO!", 
+                text: "Banda inscrita!", 
+                background: "#1e1e1e", 
+                color: "#fff" 
+            }).then(() => window.location.reload());
 
         } catch (err) {
             Swal.fire({ icon: "error", title: "Falha", text: err.message });
