@@ -1,201 +1,135 @@
 /**
- * ROCK & POESIA - Sistema de Inscrição de Bandas
- * Código completo e sem abreviações
+ * ROCK & POESIA - Sistema de Inscrição 2026
+ * Versão Corrigida: Sem erros de 'null' e com espaçamento garantido
  */
 
-// --- 1. CONFIGURAÇÃO DE CONEXÃO COM O SUPABASE ---
 const SUPABASE_URL = "https://hxbiexpadfaleozfywkh.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4YmlleHBhZGZhbGVvemZ5d2toIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk3MjYxOTYsImV4cCI6MjA4NTMwMjE5Nn0.Tk5ENRCxrjiAnOBmFIUBEvEPK8indX7vurVDkd8UKyQ";
-
-// Inicializa o cliente do banco de dados
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// --- 2. VARIÁVEIS DE ESTADO ---
 let listaDeIntegrantesDaBanda = [];
 
-// --- 3. REFERÊNCIAS DOS ELEMENTOS DA PÁGINA ---
-const formularioDeInscricao = document.getElementById("formInscricao");
-const listaVisualDeIntegrantes = document.getElementById("listaVisual");
-const selectEstiloMusical = document.getElementById("estilo_musical");
-const wrapperCampoOutroEstilo = document.getElementById("wrapper_outro");
-const inputOutroEstilo = document.getElementById("outro_estilo");
-const botaoDeEnvioFinal = document.getElementById("btnEnviar");
-
-// --- 4. LÓGICA DA TELA DE ABERTURA (SPLASH SCREEN) ---
+// --- 1. LÓGICA DA SPLASH SCREEN (INDEX.HTML) ---
 document.addEventListener("DOMContentLoaded", function () {
-    const elementoDaSplash = document.getElementById("splash");
-    const elementoTextoBemVindo = document.getElementById("welcome-text");
+    const splash = document.getElementById("splash");
+    const mainContent = document.getElementById("main-content");
+    const welcomeText = document.getElementById("welcome-text");
 
-    if (elementoDaSplash) {
-        // Bloqueia a rolagem enquanto a animação acontece
+    if (splash) {
         document.body.style.overflow = "hidden";
+        
+        setTimeout(() => {
+            if (welcomeText) welcomeText.classList.add("show");
+        }, 1000);
 
-        // Exibe o texto após 2 segundos
-        setTimeout(function () {
-            if (elementoTextoBemVindo) {
-                elementoTextoBemVindo.classList.remove("hidden");
-                elementoTextoBemVindo.classList.add("show");
-            }
-        }, 2000);
-
-        // Desaparece com a tela de splash após 5.5 segundos
-        setTimeout(function () {
-            elementoDaSplash.style.opacity = "0";
-            setTimeout(function () {
-                elementoDaSplash.style.display = "none";
+        setTimeout(() => {
+            splash.style.opacity = "0";
+            if (mainContent) mainContent.style.display = "block";
+            
+            setTimeout(() => {
+                splash.style.display = "none";
                 document.body.style.overflow = "auto";
             }, 1000);
-        }, 5500);
+        }, 4000); // Reduzi para 4s para não cansar o usuário
     }
 });
 
-// --- 5. GERENCIAMENTO DE INTEGRANTES ---
-
-// Função global para adicionar um membro à lista temporária
-window.adicionarIntegrante = function () {
-    const inputNomeMembro = document.getElementById("nome_membro");
-    const selectFuncaoMembro = document.getElementById("funcao_membro");
+// --- 2. GERENCIAMENTO DE INTEGRANTES (INSCRICAO.HTML) ---
+window.adicionarIntegrante = function() {
+    const nomeInput = document.getElementById("nome_membro");
+    const funcaoSelect = document.getElementById("funcao_membro");
     
-    const nomeInformado = inputNomeMembro.value.trim();
-    const funcaoSelecionada = selectFuncaoMembro.value;
+    if (!nomeInput) return; // Segurança caso não esteja na página de inscrição
 
-    if (nomeInformado === "") {
-        Swal.fire({
-            icon: "warning",
-            title: "Campo Vazio",
-            text: "Por favor, digite o nome do integrante.",
-            background: "#1e1e1e",
-            color: "#ffffff"
-        });
+    const nome = nomeInput.value.trim();
+
+    if (nome === "") {
+        Swal.fire({ icon: "warning", title: "Atenção", text: "Digite o nome do músico.", background: "#1e1e1e", color: "#fff" });
         return;
     }
 
-    // Adiciona o objeto ao array
-    listaDeIntegrantesDaBanda.push({
-        nome_musico: nomeInformado,
-        funcao: funcaoSelecionada
-    });
-
-    // Limpa o campo e foca para o próximo
-    inputNomeMembro.value = "";
-    inputNomeMembro.focus();
-
-    // Atualiza a visualização na tela
-    renderizarListaDeIntegrantes();
+    listaDeIntegrantesDaBanda.push({ nome_musico: nome, funcao: funcaoSelect.value });
+    nomeInput.value = "";
+    nomeInput.focus();
+    renderizarListaIntegrantes();
 };
 
-// Função para desenhar a lista na tela com o botão de remover (Lixeira)
-function renderizarListaDeIntegrantes() {
-    listaVisualDeIntegrantes.innerHTML = "";
+function renderizarListaIntegrantes() {
+    const listaVisual = document.getElementById("listaVisual");
+    if (!listaVisual) return;
 
-    listaDeIntegrantesDaBanda.forEach(function (integrante, indice) {
-        const itemDaLista = document.createElement("li");
-        
-        // Aqui a lixeira é mantida pois é necessária para correções na lista
-        itemDaLista.innerHTML = `
-            <span><strong>${integrante.nome_musico}</strong> - ${integrante.funcao}</span>
-            <button type="button" onclick="removerIntegrante(${indice})" style="background: none; border: none; cursor: pointer; color: #e63946; font-size: 1.2rem;">
-                🗑️
-            </button>
+    listaVisual.innerHTML = "";
+    listaDeIntegrantesDaBanda.forEach((integrante, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <span><strong>${integrante.nome_musico}</strong> (${integrante.funcao})</span>
+            <button type="button" onclick="removerIntegrante(${index})" style="background:none; border:none; color:#e63946; cursor:pointer;">🗑️</button>
         `;
-        listaVisualDeIntegrantes.appendChild(itemDaLista);
+        listaVisual.appendChild(li);
     });
 }
 
-// Função global para remover um integrante específico
-window.removerIntegrante = function (indice) {
-    listaDeIntegrantesDaBanda.splice(indice, 1);
-    renderizarListaDeIntegrantes();
+window.removerIntegrante = function(index) {
+    listaDeIntegrantesDaBanda.splice(index, 1);
+    renderizarListaIntegrantes();
 };
 
-// --- 6. CONTROLE DO CAMPO DE ESTILO MUSICAL ---
-// Sem lixeira aqui, apenas lógica de exibição do campo "Outros"
-selectEstiloMusical.addEventListener("change", function () {
-    if (this.value === "Outros") {
-        wrapperCampoOutroEstilo.style.display = "block";
-        inputOutroEstilo.required = true;
-    } else {
-        wrapperCampoOutroEstilo.style.display = "none";
-        inputOutroEstilo.required = false;
-    }
-});
+// --- 3. CONTROLE DO ESTILO MUSICAL ---
+const selectEstilo = document.getElementById("estilo_musical");
+const wrapperOutro = document.getElementById("wrapper_outro");
 
-// --- 7. ENVIO FINAL PARA O SUPABASE ---
-formularioDeInscricao.addEventListener("submit", async function (evento) {
-    evento.preventDefault();
+if (selectEstilo && wrapperOutro) {
+    selectEstilo.addEventListener("change", function() {
+        wrapperOutro.style.display = (this.value === "Outros") ? "block" : "none";
+    });
+}
 
-    // Validação: a banda precisa ter pelo menos um membro
-    if (listaDeIntegrantesDaBanda.length === 0) {
-        Swal.fire({
-            icon: "error",
-            title: "Lista Vazia",
-            text: "Adicione pelo menos um integrante à sua banda antes de enviar."
-        });
-        return;
-    }
+// --- 4. ENVIO DO FORMULÁRIO (PROTEÇÃO CONTRA ERRO DE NULL) ---
+const form = document.getElementById("formInscricao");
+if (form) {
+    form.addEventListener("submit", async function(e) {
+        e.preventDefault();
 
-    // Desativa o botão para evitar múltiplos cliques
-    botaoDeEnvioFinal.disabled = true;
-    botaoDeEnvioFinal.innerText = "PROCESSANDO... 🤘";
+        if (listaDeIntegrantesDaBanda.length === 0) {
+            Swal.fire({ icon: "error", title: "Erro", text: "Adicione pelo menos um integrante." });
+            return;
+        }
 
-    const dadosDoFormulario = new FormData(formularioDeInscricao);
-    
-    // Define qual estilo salvar (o selecionado ou o digitado em "Outros")
-    let estiloMusicalFinal = dadosDoFormulario.get("estilo_musical");
-    if (estiloMusicalFinal === "Outros") {
-        estiloMusicalFinal = inputOutroEstilo.value;
-    }
+        const btn = document.getElementById("btnEnviar");
+        btn.disabled = true;
+        btn.innerText = "ENVIANDO... 🤘";
 
-    try {
-        // PASSO 1: Salvar os dados da Banda
-        const { data: bandaCriada, error: erroBanda } = await _supabase
-            .from("bandas")
-            .insert([{
-                nome_banda: dadosDoFormulario.get("nome_banda"),
-                estilo_musical: estiloMusicalFinal,
-                whatsapp: dadosDoFormulario.get("whatsapp"),
-                instagram: dadosDoFormulario.get("instagram")
-            }])
-            .select()
-            .single();
+        const formData = new FormData(this);
+        let estiloFinal = formData.get("estilo_musical");
+        if (estiloFinal === "Outros") {
+            estiloFinal = document.getElementById("outro_estilo").value;
+        }
 
-        if (erroBanda) throw erroBanda;
+        try {
+            const { data: banda, error: erroBanda } = await _supabase.from("bandas").insert([{
+                nome_banda: formData.get("nome_banda"),
+                estilo_musical: estiloFinal,
+                whatsapp: formData.get("whatsapp"),
+                instagram: formData.get("redes_sociais")
+            }]).select().single();
 
-        // PASSO 2: Preparar e salvar os Integrantes vinculados ao ID da banda
-        const listaParaInserir = listaDeIntegrantesDaBanda.map(function (integrante) {
-            return {
-                banda_id: bandaCriada.id,
-                nome_musico: integrante.nome_musico,
-                funcao: integrante.funcao
-            };
-        });
+            if (erroBanda) throw erroBanda;
 
-        const { error: erroIntegrantes } = await _supabase
-            .from("integrantes")
-            .insert(listaParaInserir);
+            const membrosParaInserir = listaDeIntegrantesDaBanda.map(m => ({
+                banda_id: banda.id,
+                nome_musico: m.nome_musico,
+                funcao: m.funcao
+            }));
 
-        if (erroIntegrantes) throw erroIntegrantes;
+            await _supabase.from("integrantes").insert(membrosParaInserir);
 
-        // SUCESSO
-        Swal.fire({
-            icon: "success",
-            title: "🤘 INSCRIÇÃO REALIZADA!",
-            text: "Sua banda está oficialmente inscrita no Rock & Poesia.",
-            background: "#1e1e1e",
-            color: "#ffffff"
-        }).then(function () {
-            // Recarrega a página ou redireciona
-            window.location.reload();
-        });
+            Swal.fire({ icon: "success", title: "SUCESSO!", text: "Banda inscrita!", background: "#1e1e1e", color: "#fff" })
+                .then(() => window.location.reload());
 
-    } catch (erro) {
-        console.error("Erro durante o processo:", erro);
-        Swal.fire({
-            icon: "error",
-            title: "Falha no Envio",
-            text: "Ocorreu um erro ao salvar: " + erro.message
-        });
-        botaoDeEnvioFinal.disabled = false;
-        botaoDeEnvioFinal.innerText = "ENVIAR INSCRIÇÃO 🤘";
-    }
-});
+        } catch (err) {
+            Swal.fire({ icon: "error", title: "Falha", text: err.message });
+            btn.disabled = false;
+            btn.innerText = "ENVIAR INSCRIÇÃO 🤘";
+        }
+    });
+}

@@ -37,25 +37,23 @@
                         <option value="Bateria">Bateria</option>
                         <option value="Outros">Outros</option>
                     </select>
-                    <button type="button" id="btnAddMembro">ADD</button>
+                    <button type="button" id="btnAddMembro" onclick="adicionarIntegrante()">ADD</button>
                 </div>
                 <ul id="listaVisual"></ul>
             </div>
 
             <div class="input-group">
                 <label>3 - Estilo Musical</label>
-                <div style="display: flex; gap: 8px;">
-                    <select id="estilo_musical" name="estilo_musical" required>
-                        <option value="">Selecione...</option>
-                        <option value="Hard Rock">Hard Rock</option>
-                        <option value="Metal">Metal</option>
-                        <option value="Indie">Indie</option>
-                        <option value="Outros">Outros</option>
-                    </select>
-                </div>
+                <select id="estilo_musical" name="estilo_musical" required>
+                    <option value="">Selecione...</option>
+                    <option value="Hard Rock">Hard Rock</option>
+                    <option value="Metal">Metal</option>
+                    <option value="Indie">Indie</option>
+                    <option value="Outros">Outros</option>
+                </select>
             </div>
 
-            <div id="wrapper_outro" style="display: none; margin-bottom: 20px;">
+            <div id="wrapper_outro" style="display: none; margin-bottom: 35px;">
                 <label>Qual estilo?</label>
                 <input type="text" id="outro_estilo" name="outro_estilo" placeholder="Digite o estilo">
             </div>
@@ -84,17 +82,19 @@
                 <input type="text" name="whatsapp" required placeholder="(51) 99999-9999">
             </div>
 
-            <div id="status" style="margin-bottom: 15px; text-align: center; font-weight: bold;"></div>
-
             <button type="submit" id="btnEnviar">ENVIAR INSCRIÇÃO 🤘</button>
-            <a href="index.html" class="link-voltar">← Voltar ao Menu</a>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="index.html" style="color: #666; text-decoration: none; font-size: 0.9rem;">← Voltar ao Menu</a>
+            </div>
         </form>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
