@@ -6,6 +6,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscrição | Rock & Poesia</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para a área de termos */
+        .caixa-texto {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            text-align: left;
+            color: #ccc;
+        }
+
+        .caixa-texto ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .caixa-texto li {
+            margin-bottom: 8px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            color: var(--primary);
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .checkbox-container input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        #secao-termos h2 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-bloqueado {
+            background: #444 !important;
+            cursor: not-allowed !important;
+            opacity: 0.5;
+        }
+    </style>
 </head>
 
 <body>
@@ -16,10 +70,51 @@
     <div class="container">
         <header>
             <h1>ROCK & POESIA</h1>
-            <p>Inscreva sua banda no festival</p>
+            <p id="subtitulo-pagina">Leia as regras para prosseguir</p>
         </header>
 
-        <form id="formInscricao">
+        <div id="secao-termos">
+            <h2>Termos de Classificação 📜</h2>
+            <div class="caixa-texto">
+                <ul>
+                    <li>Entregar a ficha de inscrição devidamente preenchida até o dia 12/03/2026.</li>
+                    <li>As bandas inscritas devem ter coerência com o estilo musical do evento, com um repertório de no mínimo 30 minutos, e no máximo 45 minutos.</li>
+                    <li>Quantidade de músicas próprias será um critério de desempate para a seleção das bandas.</li>
+                    <li>O não atendimento dos requisitos acima citados e a não participação de reuniões nas vésperas do evento a ser marcada, eliminará a banda automaticamente.</li>
+                    <li>As vagas para o festival são limitadas.</li>
+                </ul>
+                <label class="checkbox-container">
+                    <input type="checkbox" id="check-termos"> Li e concordo com os termos de classificação
+                </label>
+            </div>
+
+            <h2>Regulamentos de Participação 🎸</h2>
+            <div class="caixa-texto">
+                <ul>
+                    <li>As bandas ficam expressamente proibidas de fazer qualquer tipo de manifestação partidária, apologia a drogas, comentários discriminatórios de raça, sexo, gênero, etc.</li>
+                    <li>A Prefeitura Municipal de Camaquã bem como a Mouro Produções não se responsabilizam por instrumentos, cabos, periféricos ou quaisquer itens de responsabilidade das bandas.</li>
+                    <li>Cada banda terá o direito de organizar-se no palco antes de tocar; o tempo é de dez minutos e será debitado do tempo de apresentação caso ultrapasse este.</li>
+                    <li>Fica autorizado a Secretaria de Cultura e Turismo e a Mouro Produções a utilizar imagens, áudios e vídeos para a divulgação do evento.</li>
+                    <li>Não está confirmado o pagamento de cachês às bandas.</li>
+                    <li>As bandas devem se apresentar à produção ao lado do palco com 30 minutos de antecedência.</li>
+                    <li>O formulário de inscrição deve ser preenchido corretamente.</li>
+                    <li>Inscrições digitais implicam em concordância total com estas regras.</li>
+                </ul>
+                <label class="checkbox-container">
+                    <input type="checkbox" id="check-regras"> Li e concordo com os regulamentos de participação
+                </label>
+            </div>
+
+            <button type="button" id="btn-prosseguir" class="btn-bloqueado" disabled style="width: 100%; padding: 15px; font-weight: bold; border: none; border-radius: 5px; color: white; background-color: var(--primary);">
+                PROSSEGUIR PARA INSCRIÇÃO 🤘
+            </button>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="index.html" style="color: #666; text-decoration: none; font-size: 0.9rem;">← Voltar ao Menu</a>
+            </div>
+        </div>
+
+        <form id="formInscricao" style="display: none;">
             <div class="input-group">
                 <label>1 - Nome da Banda</label>
                 <input type="text" name="nome_banda" required placeholder="Ex: Echoes of Rock">
@@ -85,16 +180,48 @@
             <button type="submit" id="btnEnviar">ENVIAR INSCRIÇÃO 🤘</button>
             
             <div style="text-align: center; margin-top: 20px;">
-                <a href="index.html" style="color: #666; text-decoration: none; font-size: 0.9rem;">← Voltar ao Menu</a>
+                <a href="inscricao.html" style="color: #666; text-decoration: none; font-size: 0.9rem;">← Voltar aos Termos</a>
             </div>
         </form>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
     <script src="script.js"></script>
+
+    <script>
+        // Lógica para alternar entre Termos e Formulário
+        document.addEventListener("DOMContentLoaded", function() {
+            const checkTermos = document.getElementById("check-termos");
+            const checkRegras = document.getElementById("check-regras");
+            const btnProsseguir = document.getElementById("btn-prosseguir");
+            const secaoTermos = document.getElementById("secao-termos");
+            const formInscricao = document.getElementById("formInscricao");
+            const subtitulo = document.getElementById("subtitulo-pagina");
+
+            function validarChecks() {
+                if (checkTermos.checked && checkRegras.checked) {
+                    btnProsseguir.disabled = false;
+                    btnProsseguir.classList.remove("btn-bloqueado");
+                    btnProsseguir.style.cursor = "pointer";
+                } else {
+                    btnProsseguir.disabled = true;
+                    btnProsseguir.classList.add("btn-bloqueado");
+                    btnProsseguir.style.cursor = "not-allowed";
+                }
+            }
+
+            checkTermos.addEventListener("change", validarChecks);
+            checkRegras.addEventListener("change", validarChecks);
+
+            btnProsseguir.addEventListener("click", function() {
+                secaoTermos.style.display = "none";
+                formInscricao.style.display = "block";
+                subtitulo.innerText = "Preencha os dados da banda";
+                window.scrollTo(0, 0);
+            });
+        });
+    </script>
 </body>
 
 </html>

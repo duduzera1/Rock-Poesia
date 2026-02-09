@@ -1,6 +1,6 @@
 /**
  * ROCK & POESIA - Sistema de Inscrição 2026
- * Versão Corrigida: Sem erros de 'null' e com espaçamento garantido
+ * Versão Final: Splash, Termos de Aceite, Integrantes e Envio Supabase
  */
 
 const SUPABASE_URL = "https://hxbiexpadfaleozfywkh.supabase.co";
@@ -30,21 +30,61 @@ document.addEventListener("DOMContentLoaded", function () {
                 splash.style.display = "none";
                 document.body.style.overflow = "auto";
             }, 1000);
-        }, 4000); // Reduzi para 4s para não cansar o usuário
+        }, 4000);
     }
 });
 
-// --- 2. GERENCIAMENTO DE INTEGRANTES (INSCRICAO.HTML) ---
+// --- 2. LÓGICA DE ACEITE DOS TERMOS (INSCRICAO.HTML) ---
+document.addEventListener("DOMContentLoaded", function() {
+    const checkTermos = document.getElementById("check-termos");
+    const checkRegras = document.getElementById("check-regras");
+    const btnProsseguir = document.getElementById("btn-prosseguir");
+    const secaoTermos = document.getElementById("secao-termos");
+    const formInscricao = document.getElementById("formInscricao");
+    const subtitulo = document.getElementById("subtitulo-pagina");
+
+    if (checkTermos && checkRegras && btnProsseguir) {
+        const validarChecks = () => {
+            if (checkTermos.checked && checkRegras.checked) {
+                btnProsseguir.disabled = false;
+                btnProsseguir.classList.remove("btn-bloqueado");
+                btnProsseguir.style.cursor = "pointer";
+            } else {
+                btnProsseguir.disabled = true;
+                btnProsseguir.classList.add("btn-bloqueado");
+                btnProsseguir.style.cursor = "not-allowed";
+            }
+        };
+
+        checkTermos.addEventListener("change", validarChecks);
+        checkRegras.addEventListener("change", validarChecks);
+
+        btnProsseguir.addEventListener("click", () => {
+            secaoTermos.style.display = "none";
+            formInscricao.style.display = "block";
+            if (subtitulo) subtitulo.innerText = "Preencha os dados da banda";
+            window.scrollTo(0, 0);
+        });
+    }
+});
+
+// --- 3. GERENCIAMENTO DE INTEGRANTES ---
 window.adicionarIntegrante = function() {
     const nomeInput = document.getElementById("nome_membro");
     const funcaoSelect = document.getElementById("funcao_membro");
     
-    if (!nomeInput) return; // Segurança caso não esteja na página de inscrição
+    if (!nomeInput) return;
 
     const nome = nomeInput.value.trim();
 
     if (nome === "") {
-        Swal.fire({ icon: "warning", title: "Atenção", text: "Digite o nome do músico.", background: "#1e1e1e", color: "#fff" });
+        Swal.fire({ 
+            icon: "warning", 
+            title: "Atenção", 
+            text: "Digite o nome do músico.", 
+            background: "#1e1e1e", 
+            color: "#fff" 
+        });
         return;
     }
 
@@ -74,7 +114,7 @@ window.removerIntegrante = function(index) {
     renderizarListaIntegrantes();
 };
 
-// --- 3. CONTROLE DO ESTILO MUSICAL ---
+// --- 4. CONTROLE DO ESTILO MUSICAL (CAMPO OUTROS) ---
 const selectEstilo = document.getElementById("estilo_musical");
 const wrapperOutro = document.getElementById("wrapper_outro");
 
@@ -84,7 +124,7 @@ if (selectEstilo && wrapperOutro) {
     });
 }
 
-// --- 4. ENVIO DO FORMULÁRIO (CORRIGIDO PARA ENVIAR VÍDEOS E AUTORAIS) ---
+// --- 5. ENVIO DO FORMULÁRIO PARA O SUPABASE ---
 const form = document.getElementById("formInscricao");
 if (form) {
     form.addEventListener("submit", async function(e) {
@@ -107,43 +147,45 @@ if (form) {
             estiloFinal = document.getElementById("outro_estilo").value;
         }
 
-        // --- TRATAMENTO DE SEGURANÇA PARA O LINK DE VÍDEO ---
+        // Tratamento de Segurança para o Link de Vídeo
         let linkVideoLimpo = (formData.get("videos_banda") || "").trim();
         if (linkVideoLimpo !== "" && !linkVideoLimpo.startsWith('http')) {
             linkVideoLimpo = 'https://' + linkVideoLimpo;
         }
 
         try {
-            // AQUI ESTÁ A CORREÇÃO: Adicionamos 'videos_banda' e 'possui_autorais'
+            // Inserção na tabela 'bandas'
             const { data: banda, error: erroBanda } = await _supabase.from("bandas").insert([{
                 nome_banda: formData.get("nome_banda"),
                 estilo_musical: estiloFinal,
                 whatsapp: formData.get("whatsapp"),
                 redes_sociais: formData.get("redes_sociais"),
-                videos_banda: linkVideoLimpo, // Faltava esta linha
-                possui_autorais: formData.get("possui_autorais") // Faltava esta linha
+                videos_banda: linkVideoLimpo,
+                possui_autorais: formData.get("possui_autorais")
             }]).select().single();
 
             if (erroBanda) throw erroBanda;
 
+            // Inserção na tabela 'integrantes'
             const membrosParaInserir = listaDeIntegrantesDaBanda.map(m => ({
                 banda_id: banda.id,
                 nome_musico: m.nome_musico,
                 funcao: m.funcao
             }));
 
-            await _supabase.from("integrantes").insert(membrosParaInserir);
+            const { error: erroIntegrantes } = await _supabase.from("integrantes").insert(membrosParaInserir);
+            if (erroIntegrantes) throw erroIntegrantes;
 
             Swal.fire({ 
                 icon: "success", 
                 title: "SUCESSO!", 
-                text: "Banda inscrita!", 
+                text: "Banda inscrita com sucesso!", 
                 background: "#1e1e1e", 
                 color: "#fff" 
             }).then(() => window.location.reload());
 
         } catch (err) {
-            Swal.fire({ icon: "error", title: "Falha", text: err.message });
+            Swal.fire({ icon: "error", title: "Falha na Inscrição", text: err.message });
             btn.disabled = false;
             btn.innerText = "ENVIAR INSCRIÇÃO 🤘";
         }

@@ -11,14 +11,8 @@
 /* --- 2. RESET E BASE DO DOCUMENTO --- */
 html,
 body {
-    margin-top: 0px;
-    margin-right: 0px;
-    margin-bottom: 0px;
-    margin-left: 0px;
-    padding-top: 0px;
-    padding-right: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
+    margin: 0px;
+    padding: 0px;
     width: 100%;
     min-height: 100vh;
 }
@@ -29,7 +23,7 @@ body {
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza horizontalmente */
+    align-items: center;
     justify-content: flex-start;
     padding-top: 40px;
     padding-right: 20px;
@@ -52,8 +46,7 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    transition-property: opacity;
-    transition-duration: 1s;
+    transition: opacity 1s;
 }
 
 .splash-content {
@@ -68,9 +61,7 @@ body {
     border-radius: 12px;
     opacity: 0;
     transform: scale(0.8);
-    animation-name: animacaoLogo;
-    animation-duration: 2s;
-    animation-fill-mode: forwards;
+    animation: animacaoLogo 2s forwards;
 }
 
 @keyframes animacaoLogo {
@@ -80,18 +71,13 @@ body {
     }
 }
 
-/* --- 4. CONTAINER DO FORMULÁRIO --- */
+/* --- 4. CONTAINER PRINCIPAL --- */
 .container {
     width: 100%;
     max-width: 550px;
     background-color: var(--cor-card-cinza);
-    padding-top: 40px;
-    padding-right: 40px;
-    padding-bottom: 40px;
-    padding-left: 40px;
-    border-top-width: 6px;
-    border-top-style: solid;
-    border-top-color: var(--cor-primaria);
+    padding: 40px;
+    border-top: 6px solid var(--cor-primaria);
     border-radius: 12px;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
     box-sizing: border-box;
@@ -121,8 +107,54 @@ h1 {
     letter-spacing: 1px;
 }
 
-/* --- 6. CAIXAS DE PREENCHIMENTO (INPUTS) --- */
-/* Espaçamento de 35px entre cada bloco conforme solicitado */
+h2 {
+    color: #ffffff;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- 6. SEÇÃO DE TERMOS E REGULAMENTOS --- */
+.caixa-texto {
+    background: #1a1a1a;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--cor-primaria);
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    text-align: left;
+    color: #cccccc;
+}
+
+.caixa-texto ul {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.caixa-texto li {
+    margin-bottom: 8px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    color: var(--cor-primaria);
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.checkbox-container input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* --- 7. CAIXAS DE PREENCHIMENTO (INPUTS) --- */
 .input-group {
     margin-bottom: 35px;
     width: 100%;
@@ -140,20 +172,14 @@ label {
 input,
 select {
     width: 100%;
-    padding-top: 16px;
-    padding-right: 16px;
-    padding-bottom: 16px;
-    padding-left: 16px;
+    padding: 16px;
     background-color: var(--cor-input-cinza);
-    border-width: 1px;
-    border-style: solid;
-    border-color: #444444;
+    border: 1px solid #444444;
     color: #ffffff;
     border-radius: 8px;
     font-size: 1rem;
     box-sizing: border-box;
-    transition-property: border-color, box-shadow;
-    transition-duration: 0.3s;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 input:focus,
@@ -163,7 +189,7 @@ select:focus {
     box-shadow: 0px 0px 10px rgba(230, 57, 70, 0.2);
 }
 
-/* --- 7. GERENCIAMENTO DE INTEGRANTES --- */
+/* --- 8. GERENCIAMENTO DE INTEGRANTES --- */
 .add-row {
     display: flex;
     gap: 15px;
@@ -184,7 +210,7 @@ select:focus {
 #listaVisual {
     list-style: none;
     padding: 0;
-    margin-bottom: 35px; /* Espaço após a lista para a próxima caixa */
+    margin-bottom: 35px;
 }
 
 #listaVisual li {
@@ -197,11 +223,12 @@ select:focus {
     align-items: center;
 }
 
-/* --- 8. BOTÃO DE ENVIO FINAL --- */
-#btnEnviar {
+/* --- 9. BOTÕES DE AÇÃO --- */
+.btn-acao, 
+#btnEnviar, 
+#btn-prosseguir {
     width: 100%;
-    padding-top: 18px;
-    padding-bottom: 18px;
+    padding: 18px;
     background-color: var(--cor-primaria);
     color: white;
     border: none;
@@ -211,20 +238,24 @@ select:focus {
     text-transform: uppercase;
     cursor: pointer;
     box-shadow: 0px 4px 15px rgba(230, 57, 70, 0.3);
-    transition-property: transform;
-    transition-duration: 0.2s;
+    transition: transform 0.2s, opacity 0.3s;
 }
 
-#btnEnviar:hover {
+#btnEnviar:hover, 
+#btn-prosseguir:not(:disabled):hover {
     transform: translateY(-2px);
 }
 
+.btn-bloqueado, 
+#btn-prosseguir:disabled, 
 #btnEnviar:disabled {
-    background-color: #555555;
-    cursor: not-allowed;
+    background-color: #555555 !important;
+    cursor: not-allowed !important;
+    opacity: 0.5;
+    box-shadow: none;
 }
 
-/* --- 9. AJUSTES PARA CELULAR --- */
+/* --- 10. AJUSTES PARA CELULAR --- */
 @media (max-width: 480px) {
     .container {
         padding: 20px;
@@ -232,5 +263,9 @@ select:focus {
     
     h1 {
         font-size: 1.5rem;
+    }
+
+    .add-row {
+        flex-direction: column;
     }
 }
